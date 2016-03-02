@@ -19,7 +19,7 @@
             table{
                 margin: auto;
             }
-            table, tr, th, td{ 
+            table, tr, th, td{
                 padding: 3px;
                 border: 1px solid black;
                 text-align: center;
@@ -464,14 +464,22 @@
             function roundCounter() {
                 var current = parseInt($('span#roundNumberA').text());
                 var next = current + 1;
-                var isBidder = highestBidder();
-                var highestBid = $('#'+isBidder).val();
-                if(current==13){$('#towardsTheEnd').html('<img src="images/suns.png" alt="n/" />')}
-                else if (current==14) {$('#towardsTheEnd').html('<img src="images/spades.png" alt="" />')}
-                else if (current==15) {$('#towardsTheEnd').html('<img src="images/hearts.png" alt="" />')}
-                else if (current==16) {$('#towardsTheEnd').html('<img src="images/diamonds.png" alt="" />')}
-                else if (current==17) {$('#towardsTheEnd').html('<img src="images/clubs.png" alt="" />')}
-                $('span#roundNumberA').text(next);
+
+                if(current<=12&&current>=1){
+                    var isBidder = highestBidder();
+                    var highestBid = $('#'+isBidder).val();
+                    $('span#roundNumberA').text(next);
+                }
+                else if (current=>13&&current<=18) {
+                    $('.dashcall').hide();
+                    $('.call').hide();
+                    if(current==13){$('#towardsTheEnd').html('<img src="images/suns.png" alt="n/" />')}
+                    else if (current==14) {$('#towardsTheEnd').html('<img src="images/spades.png" alt="" />')}
+                    else if (current==15) {$('#towardsTheEnd').html('<img src="images/hearts.png" alt="" />')}
+                    else if (current==16) {$('#towardsTheEnd').html('<img src="images/diamonds.png" alt="" />')}
+                    else if (current==17) {$('#towardsTheEnd').html('<img src="images/clubs.png" alt="" />')}
+                    $('span#roundNumberA').text(next);
+                }
             }
 
             //defining a function that determines the suit shape
