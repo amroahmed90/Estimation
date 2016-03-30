@@ -36,17 +36,17 @@
             .bids{background-color: lightgray;}
             .eats{background-color: lightsalmon;}
             .with{background-color: lightblue;}
-            .risk{background-color: lightgreen;}
+            .risk{background-color: lightgreen; min-width: 30px;}
             button{
                 margin: auto;
             }
-            #totalBids, span#roundTypeA, span#roundNumberA{color: darkred; font-weight: normal;}
+            #totalBids, span#roundTypeA, span#roundNumberA, span#towardsTheEnd {color: darkred; font-weight: normal;}
             footer{
                 text-align: center;
                 font-style: italic;
                 font-size: 15px;
             }
-            img{height: 30px; width: 30px;}
+            img{height: 20px; width: 20px;}
 
         </style>
         <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
@@ -57,14 +57,14 @@
                     <h2>Round Settings</h2>
                     <h3>Round No. : <span id="roundNumberA">1</span></h3>
                     <h3>Suit/Trump:
+                        <select id="suitA" name="suit">
+                            <option>Suns</option>
+                            <option>Spades</option>
+                            <option>Hearts</option>
+                            <option>Diamonds</option>
+                            <option>Clubs</option>
+                        </select>
                         <span id="towardsTheEnd">
-                            <select id="suitA" name="suit">
-                                <option>Suns</option>
-                                <option>Spades</option>
-                                <option>Hearts</option>
-                                <option>Diamonds</option>
-                                <option>Clubs</option>
-                            </select>
                         </span>
                     </h3>
             </div>
@@ -78,7 +78,7 @@
                     <th class="call">Call</th>
                     <th class="bids">Bids</th>
                     <th class="eats">Eats</th>
-                    <th class="with">With</th>
+                    <th class="with">Status</th>
                     <th class="risk">Risk</th>
                 </tr>
                 <!-- end of first row (the heads) -->
@@ -137,7 +137,7 @@
 
             <h2>Game Score</h2>
 
-            <table>
+            <table id="score">
                 <tr>
                     <th rowspan="2">Round No.</th>
                     <th colspan="3" class="name1">Player 1</th>
@@ -198,63 +198,82 @@
                 return dashCallsArr;
             }
 
+            $('input:checkbox').on('change',function() {
+                var dashCallsArr=dashCalls();
+                for (var i = 0; i < dashCallsArr.length; i++) {
+                    if (dashCallsArr[i].indexOf('bids1')>-1) {$('#with1').text('DC');}
+                    // else if (dashCallsArr[i].indexOf('bids1')=-1) {$('#with1').text('');}
+                    if (dashCallsArr[i].indexOf('bids2')>-1) {$('#with2').text('DC');}
+                    // else if (dashCallsArr[i].indexOf('bids2')=-1) {$('#with2').text('');}
+                    if (dashCallsArr[i].indexOf('bids3')>-1) {$('#with3').text('DC');}
+                    // else if (dashCallsArr[i].indexOf('bids3')=-1) {$('#with3').text('');}
+                    if (dashCallsArr[i].indexOf('bids4')>-1) {$('#with4').text('DC');}
+                    // else if (dashCallsArr[i].indexOf('bids4')=-1) {$('#with4').text('');}
+                }
+            })
+
             //setting the minimum value of bids of the bidder to 4
             $('input:radio').on('change', function () {
                 var bidder = $(this).val();
+                var roundNumber = parseInt($('#roundNumberA').text());
                 if (bidder==='call1') {
-                    $('#bids1').attr({"min":4,"max":13}).val(4);
+                    if(roundNumber<14){$('#bids1').attr({"min":4,"max":13}).val(4);}
+                    else if(roundNumber>=14){$('#bids1').attr({"min":0,"max":13}).val(0);}
                     $('#with1').text('Caller');
                     $('#risk1').text('');
                     $('#bids2').attr('min',0).val(0);
-                    $('#with2').text('');
+                    if($('#with2').text()!='DC'){$('#with2').text('');}
                     $('#risk2').text('');
                     $('#bids3').attr('min',0).val(0);
-                    $('#with3').text('');
+                    if($('#with3').text()!='DC'){$('#with3').text('');}
                     $('#risk3').text('');
                     $('#bids4').attr('min',0).val(0);
-                    $('#with4').text('');
+                    if($('#with4').text()!='DC'){$('#with4').text('');}
                     $('#risk4').text('');
                 }
                 if (bidder==='call2') {
-                    $('#bids2').attr({"min":4,"max":13}).val(4);
+                    if(roundNumber<14){$('#bids2').attr({"min":4,"max":13}).val(4);}
+                    else if(roundNumber>=14){$('#bids2').attr({"min":0,"max":13}).val(0);}
                     $('#with2').text('Caller');
                     $('#risk2').text('');
                     $('#bids1').attr('min',0).val(0);
-                    $('#with1').text('');
+                    if($('#with1').text()!='DC'){$('#with1').text('');}
                     $('#risk1').text('');
                     $('#bids3').attr('min',0).val(0);
-                    $('#with3').text('');
+                    if($('#with3').text()!='DC'){$('#with3').text('');}
                     $('#risk3').text('');
                     $('#bids4').attr('min',0).val(0);
-                    $('#with4').text('');
+                    if($('#with4').text()!='DC'){$('#with4').text('');}
                     $('#risk4').text('');
                 }
                 if (bidder==='call3') {
-                    $('#bids3').attr({"min":4,"max":13}).val(4);
+                    if(roundNumber<14){$('#bids3').attr({"min":4,"max":13}).val(4);}
+                    else if(roundNumber>=14){$('#bids3').attr({"min":0,"max":13}).val(0);}
                     $('#with3').text('Caller');
                     $('#risk3').text('');
                     $('#bids2').attr('min',0).val(0);
-                    $('#with2').text('');
+                    if($('#with2').text()!='DC'){$('#with2').text('');}
                     $('#risk2').text('');
                     $('#bids1').attr('min',0).val(0);
-                    $('#with1').text('');
+                    if($('#with1').text()!='DC'){$('#with1').text('');}
                     $('#risk1').text('');
                     $('#bids4').attr('min',0).val(0);
-                    $('#with4').text('');
+                    if($('#with4').text()!='DC'){$('#with4').text('');}
                     $('#risk4').text('');
                 }
                 if (bidder==='call4') {
-                    $('#bids4').attr({"min":4,"max":13}).val(4);
+                    if(roundNumber<14){$('#bids4').attr({"min":4,"max":13}).val(4);}
+                    else if(roundNumber>=14){$('#bids4').attr({"min":0,"max":13}).val(0);}
                     $('#with4').text('Caller');
                     $('#risk4').text('');
                     $('#bids2').attr('min',0).val(0);
-                    $('#with2').text('');
+                    if($('#with2').text()!='DC'){$('#with2').text('');}
                     $('#risk2').text('');
                     $('#bids3').attr('min',0).val(0);
-                    $('#with3').text('');
+                    if($('#with3').text()!='DC'){$('#with3').text('');}
                     $('#risk3').text('');
                     $('#bids1').attr('min',0).val(0);
-                    $('#with1').text('');
+                    if($('#with1').text()!='DC'){$('#with1').text('');}
                     $('#risk1').text('');
                 }
                 totalBids();
@@ -262,14 +281,24 @@
 
             //defining a function that determines which player is the bidder
             function highestBidder() {
-                var a = parseInt($('#bids1')[0].min);
-                var b = parseInt($('#bids2')[0].min);
-                var c = parseInt($('#bids3')[0].min);
-                var d = parseInt($('#bids4')[0].min);
-                if (a===4&&b===0&&c===0&&d===0) {return 'bids1';}
-                if (a===0&&b===4&&c===0&&d===0) {return 'bids2';}
-                if (a===0&&b===0&&c===4&&d===0) {return 'bids3';}
-                if (a===0&&b===0&&c===0&&d===4) {return 'bids4';}
+                var roundNumber = parseInt($('#roundNumberA').text());
+                if(roundNumber<14){
+                    var a = parseInt($('#bids1')[0].min);
+                    var b = parseInt($('#bids2')[0].min);
+                    var c = parseInt($('#bids3')[0].min);
+                    var d = parseInt($('#bids4')[0].min);
+                    if (a===4&&b===0&&c===0&&d===0) {return 'bids1';}
+                    if (a===0&&b===4&&c===0&&d===0) {return 'bids2';}
+                    if (a===0&&b===0&&c===4&&d===0) {return 'bids3';}
+                    if (a===0&&b===0&&c===0&&d===4) {return 'bids4';}
+                }
+                else{
+                    var bidder = $('input:radio:checked')[0].id;
+                    if(bidder=='call1'){return 'bids1'};
+                    if(bidder=='call2'){return 'bids2'};
+                    if(bidder=='call3'){return 'bids3'};
+                    if(bidder=='call4'){return 'bids4'};
+                }
             }
 
             //defining a function that determines the last bidder
@@ -290,10 +319,24 @@
             //setting the maximum value of bids for the other players to the bids of the highestbidder
             $('input.bidsNum').on('change',function () {
                 var isBidder = highestBidder();
-                var max = $('#'+isBidder).val();
+                var max = parseInt($('#'+isBidder).val());
+                var roundNumber = parseInt($('#roundNumberA').text());
+
                 for (var i = 0; i < playersArr.length; i++) {
                     if(playersArr[i]!==isBidder){
                         $('#'+playersArr[i]).attr('max',max);
+                    }
+                }
+
+                if(roundNumber>=14){
+                    if(max>=8){
+                        $('#towardsTheEnd').hide();
+                        $('#suitA').show();
+                        console.log(max);
+                    }
+                    else{
+                        $('#towardsTheEnd').show();
+                        $('#suitA').hide();
                     }
                 }
                 totalBids();
@@ -459,6 +502,35 @@
                 return winnersArr;
             }
 
+            //defining a fuction that determines only winners
+            function onlyWinner(){
+                var winnersArr = winnersDeterminer();
+                var w = 0;
+                var index;
+                for (var i = 0; i < winnersArr.length; i++) {
+                    if(winnersArr[i]=='w'){w++};
+                }
+
+                if(w==1&&winnersArr.indexOf('w')==0){return 'bids1';}
+                else if(w==1&&winnersArr.indexOf('w')==1){return 'bids2';}
+                else if(w==1&&winnersArr.indexOf('w')==2){return 'bids3';}
+                else if(w==1&&winnersArr.indexOf('w')==3){return 'bids4';}
+            }
+
+            //defining a fuction that determines only losers
+            function onlyLoser(){
+                var winnersArr = winnersDeterminer();
+                var l = 0;
+                var index;
+                for (var i = 0; i < winnersArr.length; i++) {
+                    if(winnersArr[i]=='l'){l++};
+                }
+                if(l==1&&winnersArr.indexOf('l')==0){return 'bids1';}
+                else if(l==1&&winnersArr.indexOf('l')==1){return 'bids2';}
+                else if(l==1&&winnersArr.indexOf('l')==2){return 'bids3';}
+                else if(l==1&&winnersArr.indexOf('l')==3){return 'bids4';}
+            }
+
 
             //defining a function that count the rounds and increaments
             function roundCounter() {
@@ -466,19 +538,21 @@
                 var next = current + 1;
 
                 if(current<=12&&current>=1){
-                    var isBidder = highestBidder();
-                    var highestBid = $('#'+isBidder).val();
                     $('span#roundNumberA').text(next);
                 }
-                else if (current=>13&&current<=18) {
-                    $('.dashcall').hide();
-                    $('.call').hide();
-                    if(current==13){$('#towardsTheEnd').html('<img src="images/suns.png" alt="n/" />')}
+                else if (current>=13&&current<18) {
+                    $('#suitA').hide();
+                    $('.dashCall').hide();
+                    if(current==13){$('#towardsTheEnd').html('<img src="images/suns.png" alt="" />')}
                     else if (current==14) {$('#towardsTheEnd').html('<img src="images/spades.png" alt="" />')}
                     else if (current==15) {$('#towardsTheEnd').html('<img src="images/hearts.png" alt="" />')}
                     else if (current==16) {$('#towardsTheEnd').html('<img src="images/diamonds.png" alt="" />')}
                     else if (current==17) {$('#towardsTheEnd').html('<img src="images/clubs.png" alt="" />')}
                     $('span#roundNumberA').text(next);
+                }
+                else if (current==18) {
+                    $('span#roundNumberA').text('18');
+                    $('span#towardsTheEnd').text('Game Ended');
                 }
             }
 
@@ -517,8 +591,77 @@
                 $('#risk4').text("");
             }
 
+            //defining a function that calculates the score and returns it as an array
+            function scoreCalculator() {
+                var onlyWinnerStr = onlyWinner();
+                var onlyLoserStr = onlyLoser();
+                var winnersArr = winnersDeterminer();
+                var totalPlayerScore =0;
+                var totalBidsInt = totalBids();
+
+                var scoreArr = [];
+                var dashCallsArr = dashCalls();
+
+                for (var i = 0; i<4; i++){
+                    var madeScore = 0;
+                    var notMadeScore = 0;
+                    var onlyWinnerScore= 0;
+                    var onlyLoserScore = 0;
+                    var withScore = 0;
+                    var riskScore = 0;
+                    var j=i+1;
+
+
+                    var withStatus = $('#with'+j).text();
+                    var riskStatus = $('#risk'+j).text();
+                    var bidsInt = parseInt($('#bids'+j).val());
+                    var eatsInt = parseInt($('#eats'+j).val());
+
+                    if(winnersArr[i]=='w'&&withStatus=='DC'&&totalBidsInt>13&&bidsInt==0){madeScore =25;console.log('1');}
+                    else if(winnersArr[i]=='w'&&withStatus=='DC'&&totalBidsInt<13){madeScore =30;console.log('2');}
+                    else if(winnersArr[i]=='l'&&withStatus=='DC'&&totalBidsInt>13){notMadeScore = -25;console.log('3');}
+                    else if(winnersArr[i]=='l'&&withStatus=='DC'&&totalBidsInt<13){notMadeScore = -30;console.log('4');}
+                    else if(winnersArr[i]=='w'&&withStatus!='DC'&&bidsInt<8){madeScore = 10 + eatsInt; console.log('5');}
+                    else if(winnersArr[i]=='w'&&bidsInt>=8){madeScore = Math.pow(bidsInt,2)-10;console.log('6');}
+                    else if(winnersArr[i]=='l'&&withStatus!='DC'&&bidsInt<8) {notMadeScore = - Math.abs(bidsInt-eatsInt);console.log('7');}
+                    else if (winnersArr[i]=='l'&&bidsInt>=8) {notMadeScore = - Math.ceil((Math.pow(bidsInt,2))/2); console.log('8');}
+
+                    if(onlyWinnerStr==playersArr[i]){onlyWinnerScore=10; console.log('9');}
+                    if(onlyLoserStr==playersArr[i]){onlyLoserScore=-10; console.log('10');}
+                    if(withStatus=='With'||withStatus=='Caller'){withScore=10; console.log('11');}
+
+                    if(riskStatus=='1R'){riskScore=10; console.log('12');}
+                    else if(riskStatus=='2R'){riskScore=20; console.log('13');}
+                    else if(riskStatus=='3R'){riskScore=30;console.log('14');}
+                    else if(riskStatus=='4R'){riskScore=40; console.log('15');}
+
+
+                    if(winnersArr[i]=='w'&&bidsInt<8){totalPlayerScore = madeScore + onlyWinnerScore + withScore + riskScore; console.log('16');}
+                    else if(winnersArr[i]=='w'&&bidsInt>=8){totalPlayerScore = madeScore + onlyWinnerScore; console.log('17');}
+                    else if (winnersArr[i]=='l'&&bidsInt<8) {totalPlayerScore = notMadeScore - onlyLoserScore - withScore - riskScore; console.log('17');}
+                    else if (winnersArr[i]=='l'&&bidsInt>=8) {totalPlayerScore = notMadeScore - onlyLoserScore; console.log('18');}
+                    scoreArr[i]=totalPlayerScore;
+                }
+                return scoreArr;
+            }
+
             //defining a function that runs when the button is pressed
             $('button').click(function () {
+
+                verification();
+                var scoreArr = scoreCalculator();
+                var roundNumber = $('#roundNumberA').text();
+                var roundType = $('#roundTypeA').text();
+
+                var status1 = $('#with1').text()+$('#risk1').text();
+                var status2 = $('#with2').text()+$('#risk2').text();
+                var status3 = $('#with3').text()+$('#risk3').text();
+                var status4 = $('#with4').text()+$('#risk4').text();
+
+                var bidsArr = finalBids();
+
+                $('#score').append('<tr><td>'+roundNumber+'</td><td>'+status1+'</td><td>'+bidsArr[0]+'</td><td>'+scoreArr[0]+'</td><td>'+status2+'</td><td>'+bidsArr[1]+'</td><td>'+scoreArr[1]+'</td><td>'+status3+'</td><td>'+bidsArr[2]+'</td><td>'+scoreArr[2]+'</td><td>'+status4+'</td><td>'+bidsArr[3]+"</td><td>"+scoreArr[3]+"</td><td>"+roundType+'</td>');
+
                 resetter();
                 roundCounter();
             });
